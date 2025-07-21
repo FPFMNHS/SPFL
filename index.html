@@ -394,8 +394,44 @@
                     { english: "Vegetables", korean: "채소", romanization: "Chaeso" }
                 ];
 
-                // Preload audio files
-                const audioFiles = {};
+        
+                        // Map each English word to its specific audio file path
+                        const audioFileMap = {
+                            "School": "audio/school.mp3",
+                            "Teacher": "audio/teacher.mp3",
+                            "Student": "audio/student.mp3",
+                            "Pencil": "audio/pencil.mp3",
+                            "Mathematics": "audio/mathematics.mp3",
+                            "Science": "audio/science.mp3",
+                            "English": "audio/english.mp3",
+                            "Graduation": "audio/graduation.mp3",
+                            "Apples": "audio/apples.mp3",
+                            "Meat": "audio/meat.mp3",
+                            "Water": "audio/water.mp3",
+                            "Fruit": "audio/fruit.mp3",
+                            "Bread": "audio/bread.mp3",
+                            "Vegetables": "audio/vegetables.mp3",
+                            
+                            // Add more entries as needed
+                        };
+                        
+                        const audioFiles = {};
+                        
+                        // Use the audioFileMap to initialize Audio objects
+                        vocabulary.forEach(item => {
+                            if (audioFileMap[item.english]) {
+                                audioFiles[item.english] = new Audio(audioFileMap[item.english]);
+                            } else {
+                                // Fallback: try the previous method or handle missing files
+                                const audioKey = item.english.toLowerCase().replace(/\s+/g, '_');
+                                audioFiles[item.english] = new Audio(`audio/${audioKey}.mp3`);
+                            }
+                        
+                            // Optional: error handling
+                            audioFiles[item.english].onerror = function() {
+                                console.error(`Error loading audio file for: ${item.english}`);
+                            };
+                        });
                 
                 // OPTION 1: Preload audio files based on English words
                 vocabulary.forEach(item => {
